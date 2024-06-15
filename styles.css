@@ -66,6 +66,33 @@ button:hover, input[type="color"]:hover, select:hover {
     box-shadow: 0 6px 8px rgba(0, 0, 0, 0.15);
 }
 
+select {
+    margin-top: 20px;
+    color: var(--secondary-color);
+    background-color: var(--primary-color);
+    border: 1px solid var(--primary-color);
+    font-family: 'Wumpus Mono Pro Web', monospace;
+    padding: 10px 20px;
+    border-radius: 5px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    transition: background-color 0.3s, box-shadow 0.3s;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    cursor: pointer;
+}
+
+select:hover {
+    background-color: var(--secondary-color);
+    color: var(--primary-color);
+    box-shadow: 0 6px 8px rgba(0, 0, 0, 0.15);
+}
+
+select:focus {
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(0, 255, 0, 0.3);
+}
+
 input[type="range"] {
     -webkit-appearance: none;
     width: 100%;
