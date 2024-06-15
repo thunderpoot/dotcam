@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>::: DotCam :::</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="heading-bar">
+        <br>
+    </div>
+    <div class="pattern-bg">
+        <div class="inner-box">
+            <video id="video" autoplay></video>
+            <canvas id="canvas"></canvas>
+            <canvas id="outputCanvas"></canvas>
+        </div>
+    </div>
+    <div class="solid-border-box">
+        <input type="range" id="patternSlider" min="1" max="10" value="2">
+        <button id="saveButton">Save as SVG</button>
+        <button id="invertButton">Invert Colours</button>
+        <label for="primaryColorPicker">Primary Colour</label>
+        <input type="color" id="primaryColorPicker" value="#00ff00">
+        <label for="secondaryColorPicker">Secondary Colour</label>
+        <input type="color" id="secondaryColorPicker" value="#000000">
+    </div>
+    <br><br><br><br><br>
+    <br><br><br><br><br>
+    <div class="footer-bar">
+        <p>&copy; 2024 underwood.network ::: DotCam v 0.0.1 ::: <a href="https://github.com/thunderpoot/dotcam" target="_blank">GitHub</a></p>
+    </div>
+    <script src="scripts.js"></script>
+</body>
+</html>
