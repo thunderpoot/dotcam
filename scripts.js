@@ -98,9 +98,33 @@ video.addEventListener('play', () => {
                 case 'ign':
                     return Math.floor(((52.9829189 * ((.06711056 * x + .00583715 * y) % 1)) % 1) * 255);
                 case 'bayer4x4':
-                    return bayerMatrix4x4[y % 4][x % 4] * 16;
+                    if (Number.isFinite(x) && Number.isFinite(y)) {
+                        const modX = Math.floor(x) % 4;
+                        const modY = Math.floor(y) % 4;
+                        if (bayerMatrix4x4[modY] && bayerMatrix4x4[modY][modX] !== undefined) {
+                            return bayerMatrix4x4[modY][modX] * 16;
+                        } else {
+                            // Invalid bayerMatrix4x4 access
+                            return 127;
+                        }
+                    } else {
+                        // Invalid coordinates
+                        return 127;
+                    }
                 case 'bayer8x8':
-                    return bayerMatrix8x8[y % 8][x % 8] * 4;
+                    if (Number.isFinite(x) && Number.isFinite(y)) {
+                        const modX = Math.floor(x) % 8;
+                        const modY = Math.floor(y) % 8;
+                        if (bayerMatrix8x8[modY] && bayerMatrix8x8[modY][modX] !== undefined) {
+                            return bayerMatrix8x8[modY][modX] * 4;
+                        } else {
+                            // Invalid bayerMatrix8x8 access
+                            return 127;
+                        }
+                    } else {
+                        // Invalid coordinates
+                        return 127;
+                    }
             }
         }
 
