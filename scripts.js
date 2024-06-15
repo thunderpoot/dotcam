@@ -1,6 +1,8 @@
 const primaryColorPicker = document.getElementById('primaryColorPicker');
 const secondaryColorPicker = document.getElementById('secondaryColorPicker');
+const flipButton = document.getElementById('flipButton');
 
+let flipImage = true;
 let primaryColour = primaryColorPicker.value;
 let secondaryColour = secondaryColorPicker.value;
 
@@ -56,6 +58,10 @@ invertButton.addEventListener('click', () => {
     invertColours = !invertColours;
 });
 
+flipButton.addEventListener('click', () => {
+    flipImage = !flipImage;
+});
+
 navigator.mediaDevices.getUserMedia({video: true})
     .then(stream => {
         video.srcObject = stream;
@@ -73,14 +79,18 @@ video.addEventListener('play', () => {
     outputCanvas.width = width;
     outputCanvas.height = height;
 
+
     function processFrame() {
         const width = canvas.width;
         const height = canvas.height;
 
-        // Flip the image horizontally
         ctx.save();
-        ctx.scale(-1, 1);
-        ctx.drawImage(video, -width, 0, width, height);
+        if (flipImage) {
+            ctx.scale(-1, 1);
+            ctx.drawImage(video, -width, 0, width, height);
+        } else {
+            ctx.drawImage(video, 0, 0, width, height);
+        }
         ctx.restore();
 
         const imageData = ctx.getImageData(0, 0, width, height);
