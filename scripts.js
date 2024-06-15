@@ -4,6 +4,10 @@ const secondaryColorPicker = document.getElementById('secondaryColorPicker');
 let primaryColour = primaryColorPicker.value;
 let secondaryColour = secondaryColorPicker.value;
 
+const bayerMatrix4x4 = [[0, 8, 2, 10], [12, 4, 14, 6], [3, 11, 1, 9], [15, 7, 13, 5]];
+
+const bayerMatrix8x8 = [[0, 48, 12, 60, 3, 51, 15, 63], [32, 16, 44, 28, 35, 19, 47, 31], [8, 56, 4, 52, 11, 59, 7, 55], [40, 24, 36, 20, 43, 27, 39, 23], [2, 50, 14, 62, 1, 49, 13, 61], [34, 18, 46, 30, 33, 17, 45, 29], [10, 58, 6, 54, 9, 57, 5, 53], [42, 26, 38, 22, 41, 25, 37, 21]];
+
 primaryColorPicker.addEventListener('input', () => {
     primaryColour = primaryColorPicker.value;
     updateGlobalColors();
@@ -39,6 +43,7 @@ const outputCtx = outputCanvas.getContext('2d');
 const saveButton = document.getElementById('saveButton');
 const patternSlider = document.getElementById('patternSlider');
 const invertButton = document.getElementById('invertButton');
+const ditherSelection = document.getElementById('ditherSelection');
 
 let patternInterval = parseInt(patternSlider.value);
 let invertColours = false;
@@ -51,7 +56,7 @@ invertButton.addEventListener('click', () => {
     invertColours = !invertColours;
 });
 
-navigator.mediaDevices.getUserMedia({ video: true })
+navigator.mediaDevices.getUserMedia({video: true})
     .then(stream => {
         video.srcObject = stream;
         video.play();
@@ -84,6 +89,45 @@ video.addEventListener('play', () => {
         const primaryColorRgb = hexToRgb(primaryColour);
         const secondaryColorRgb = hexToRgb(secondaryColour);
 
+        function getThreshold(x, y) {
+            switch (ditherSelection.value) {
+                case 'none':
+                    return 127;
+                case 'random':
+                    return Math.random() * 255;
+                case 'ign':
+                    return Math.floor(((52.9829189 * ((.06711056 * x + .00583715 * y) % 1)) % 1) * 255);
+                case 'bayer4x4':
+                    if (Number.isFinite(x) && Number.isFinite(y)) {
+                        const modX = Math.floor(x) % 4;
+                        const modY = Math.floor(y) % 4;
+                        if (bayerMatrix4x4[modY] && bayerMatrix4x4[modY][modX] !== undefined) {
+                            return bayerMatrix4x4[modY][modX] * 16;
+                        } else {
+                            // Invalid bayerMatrix4x4 access
+                            return 127;
+                        }
+                    } else {
+                        // Invalid coordinates
+                        return 127;
+                    }
+                case 'bayer8x8':
+                    if (Number.isFinite(x) && Number.isFinite(y)) {
+                        const modX = Math.floor(x) % 8;
+                        const modY = Math.floor(y) % 8;
+                        if (bayerMatrix8x8[modY] && bayerMatrix8x8[modY][modX] !== undefined) {
+                            return bayerMatrix8x8[modY][modX] * 4;
+                        } else {
+                            // Invalid bayerMatrix8x8 access
+                            return 127;
+                        }
+                    } else {
+                        // Invalid coordinates
+                        return 127;
+                    }
+            }
+        }
+
         for (let i = 0; i < data.length; i += 4) {
             const x = (i / 4) % width;
             const y = Math.floor((i / 4) / width);
@@ -91,7 +135,7 @@ video.addEventListener('play', () => {
             if ((x % patternInterval === 0 && y % patternInterval === 0) ||
                 ((x + 4) % patternInterval === 0 && (y + 4) % patternInterval === 0)) {
                 const avg = (data[i] + data[i + 1] + data[i + 2]) / 3;
-                if (avg > 127) {
+                if (avg > getThreshold(x / patternInterval, y / patternInterval)) {
                     if (invertColours) {
                         data[i] = secondaryColorRgb.r;
                         data[i + 1] = secondaryColorRgb.g;
@@ -164,7 +208,7 @@ function saveCanvasAsSVG() {
 
     svg += '</svg>';
 
-    const blob = new Blob([svg], { type: 'image/svg+xml' });
+    const blob = new Blob([svg], {type: 'image/svg+xml'});
     const url = URL.createObjectURL(blob);
     const a = document.createElement('a');
     a.href = url;
