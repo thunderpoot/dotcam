@@ -18,9 +18,10 @@
         </div>
     </div>
     <div class="solid-border-box">
-        <input type="range" id="patternSlider" min="1" max="10" value="2">
+        <input type="range" id="patternSlider" min="1" max="5" value="1">
         <button id="saveButton">Save as SVG</button>
-        <button id="invertButton">Invert Colours</button>
+        <button id="invertButton">Invert</button>
+        <button id="flipButton">Flip</button>
         <label for="primaryColorPicker">Primary Colour</label>
         <input type="color" id="primaryColorPicker" value="#00ff00">
         <label for="secondaryColorPicker">Secondary Colour</label>
@@ -30,7 +31,7 @@
             <option value="none">None</option>
             <option value="random">Random</option>
             <option value="ign">Interleaved Gradient Noise</option>
-            <option value="bayer4x4">Bayer 4x4</option>
+            <option value="bayer4x4" selected="selected">Bayer 4x4</option>
             <option value="bayer8x8">Bayer 8x8</option>
         </select>
     </div>
