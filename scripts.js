@@ -112,6 +112,8 @@ function processFrame() {
                 return applySierraDithering(x, y, i);
             case 'floydSteinberg':
                 return applyFloydSteinbergDithering(x, y, i);
+            case 'atkinson':
+                return applyAtkinsonDithering(x, y, i);
         }
     }
 
@@ -172,9 +174,24 @@ function processFrame() {
         const error = oldPixel - newPixel;
 
         if (x + 1 < width) greyscaleData[i + 1] += error * 7 / 16;
-        if (x - 1 >= 0 && y + 1 < height) greyscaleData[i + width - 1] += error * 3 / 16;
+        if (x > 0 && y + 1 < height) greyscaleData[i + width - 1] += error * 3 / 16;
         if (y + 1 < height) greyscaleData[i + width] += error * 5 / 16;
         if (x + 1 < width && y + 1 < height) greyscaleData[i + width + 1] += error / 16;
+
+        return newPixel === 1;
+    }
+
+    function applyAtkinsonDithering(x, y, i) {
+        const oldPixel = greyscaleData[i];
+        const newPixel = Math.round(oldPixel);
+        const error = oldPixel - newPixel;
+
+        if (x + 1 < width) greyscaleData[i + 1] += error / 8;
+        if (x + 2 < width) greyscaleData[i + 2] += error / 8;
+        if (x > 0 && y + 1 < height) greyscaleData[i + width - 1] += error / 8;
+        if (y + 1 < height) greyscaleData[i + width] += error / 8;
+        if (y + 1 < height && x + 1 < width) greyscaleData[i + width + 1] += error / 8;
+        if (y + 2 < height) greyscaleData[i + width * 2] += error / 8;
 
         return newPixel === 1;
     }
