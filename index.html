@@ -7,43 +7,42 @@
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <div class="heading-bar">
-        <br>
+<div class="heading-bar">
+    <br>
+</div>
+<div class="pattern-bg">
+    <div class="inner-box">
+        <video id="video" autoplay></video>
+        <canvas id="canvas"></canvas>
     </div>
-    <div class="pattern-bg">
-        <div class="inner-box">
-            <video id="video" autoplay></video>
-            <canvas id="canvas"></canvas>
-            <canvas id="outputCanvas"></canvas>
-        </div>
-    </div>
-    <div class="solid-border-box">
-        <input type="range" id="patternSlider" min="1" max="5" value="1">
-        <button id="saveButton">Save as SVG</button>
-        <button id="invertButton">Invert</button>
-        <button id="flipButton">Flip</button>
-        <label for="primaryColorPicker">Primary Colour</label>
-        <input type="color" id="primaryColorPicker" value="#00ff00">
-        <label for="secondaryColorPicker">Secondary Colour</label>
-        <input type="color" id="secondaryColorPicker" value="#000000">
-        <label for="ditherSelection">Dither</label>
-        <select id="ditherSelection">
-            <option value="none">None</option>
-            <option value="random">Random</option>
-            <option value="ign">Interleaved Gradient Noise</option>
-            <option value="bayer4x4" selected="selected">Bayer 4x4</option>
-            <option value="bayer8x8">Bayer 8x8</option>
-            <option value="stucki">Stucki</option>
-            <option value="sierra">Sierra</option>
-            <option value="floydSteinberg">Floyd-Steinberg</option>
-
-        </select>
-    </div>
-    <br><br><br><br><br>
-    <br><br><br><br><br>
-    <div class="footer-bar">
-        <p>&copy; 2024 underwood.network ::: DotCam v 0.0.3 ::: <a href="https://github.com/thunderpoot" target="_blank">GitHub</a></p>
-    </div>
-    <script src="scripts.js"></script>
+</div>
+<div class="solid-border-box">
+    <input type="range" id="patternSlider" min="1" max="5" value="1">
+    <button id="saveButton">Save as SVG</button>
+    <button id="invertButton">Invert</button>
+    <button id="flipButton">Flip</button>
+    <label for="primaryColorPicker">Primary Colour</label>
+    <input type="color" id="primaryColorPicker" value="#00ff00">
+    <label for="secondaryColorPicker">Secondary Colour</label>
+    <input type="color" id="secondaryColorPicker" value="#000000">
+    <label for="ditherSelection">Dither</label>
+    <select id="ditherSelection">
+        <option value="none">None</option>
+        <option value="random">Random</option>
+        <option value="ign">Interleaved Gradient Noise</option>
+        <option value="bayer4x4" selected="selected">Bayer 4x4</option>
+        <option value="bayer8x8">Bayer 8x8</option>
+        <option value="stucki">Stucki</option>
+        <option value="sierra">Sierra</option>
+        <option value="floydSteinberg">Floyd-Steinberg</option>
+    </select>
+</div>
+<br><br><br><br><br>
+<br><br><br><br><br>
+<div class="footer-bar">
+    <p>&copy; 2024 underwood.network ::: DotCam v 0.0.3 ::: <a href="https://github.com/thunderpoot" target="_blank">GitHub</a>
+    </p>
+</div>
+<script src="scripts.js"></script>
 </body>
 </html>
