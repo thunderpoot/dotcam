@@ -27,7 +27,7 @@ let primaryColorRgb = hexToRgb(primaryColorPicker.value);
 let secondaryColorRgb = hexToRgb(secondaryColorPicker.value);
 let patternInterval = parseInt(patternSlider.value);
 let invertColours = false;
-let flipImage = false;
+let flipImage = true;
 canvas.width = width;
 canvas.height = height;
 
