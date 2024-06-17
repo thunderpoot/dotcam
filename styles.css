@@ -6,9 +6,9 @@
 }
 
 :root {
-    --primary-color: #00ff00;
+    --primary-color: #8aff8a;
     --secondary-color: #000000;
-    --dot-pattern: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="8" height="8"><rect x="0" y="0" width="2" height="2" fill="%2300ff00" /><rect x="4" y="4" width="2" height="2" fill="%2300ff00" /></svg>');
+    --dot-pattern: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="8" height="8"><rect x="0" y="0" width="2" height="2" fill="%238aff8a" /><rect x="4" y="4" width="2" height="2" fill="%238aff8a" /></svg>');
 }
 
 html, body {
@@ -49,18 +49,30 @@ button, input, select {
 }
 
 button, input[type="color"], select {
+    height: 38px;
     margin-top: 20px;
     border: 1px solid var(--primary-color);
     font-family: 'Wumpus Mono Pro Web', monospace;
     padding: 10px 20px;
     border-radius: 5px;
-    transition: background-color 0.3s, box-shadow 0.3s;
+}
+
+#secondaryColorPicker {
+    background-color: var(--secondary-color);
+}
+#secondaryColorPicker:hover {
+    background-color: var(--primary-color);
+}
+
+button {
+    cursor: pointer;
 }
 
 button:hover, input[type="color"]:hover, select:hover {
     background-color: var(--secondary-color);
     color: var(--primary-color);
     box-shadow: 0 6px 8px rgba(0, 0, 0, 0.15);
+    transition: background-color 0.3s, box-shadow 0.3s;
 }
 
 select {
@@ -72,7 +84,7 @@ select {
     padding: 10px 20px;
     border-radius: 5px;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    transition: background-color 0.3s, box-shadow 0.3s;
+    transition: box-shadow 0.3s;
     -webkit-appearance: none;
     -moz-appearance: none;
     appearance: none;
@@ -151,6 +163,11 @@ label {
     width: 80%;
     height: 60vh;
 }
+
+/* #the-buttons {
+    display: flex;
+    justify-content: space-between;
+} */
 
 .solid-border-box {
     border-style: solid;
