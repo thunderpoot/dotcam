@@ -50,11 +50,14 @@ button, input, select {
 
 button, input[type="color"], select {
     height: 38px;
-    margin-top: 20px;
+    color: var(--secondary-color);
+    background-color: var(--primary-color);
     border: 1px solid var(--primary-color);
     font-family: 'Wumpus Mono Pro Web', monospace;
     padding: 10px 20px;
     border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s, box-shadow 0.3s;
 }
 
 #secondaryColorPicker {
@@ -164,10 +167,12 @@ label {
     height: 60vh;
 }
 
-/* #the-buttons {
+#the-buttons {
     display: flex;
-    justify-content: space-between;
-} */
+    flex-wrap: wrap;
+    gap: 10px;
+    align-items: center;
+}
 
 .solid-border-box {
     border-style: solid;
