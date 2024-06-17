@@ -293,3 +293,20 @@ function saveCanvasAsSVG() {
     document.body.removeChild(a);
     URL.revokeObjectURL(url);
 }
+
+async function fetchLatestCommit() {
+    const response = await fetch('https://api.github.com/repos/thunderpoot/dotcam/commits/main');
+    if (!response.ok) {
+        console.error('Failed to fetch commit information');
+        return;
+    }
+
+    const data = await response.json();
+    const commitHash = data.sha.substring(0, 7); // Shorten the commit hash
+    const commitDate = new Date(data.commit.committer.date).toLocaleString();
+
+    document.getElementById('commitHash').innerText = commitHash;
+    document.getElementById('commitDate').innerText = commitDate;
+}
+
+document.addEventListener('DOMContentLoaded', fetchLatestCommit);

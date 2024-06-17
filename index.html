@@ -11,7 +11,7 @@
     <br>
 </div>
 <div class="pattern-bg">
-    <div class="inner-box">
+    <div class="inner-box" id="videoContainer">
         <video id="video" autoplay></video>
         <canvas id="canvas"></canvas>
     </div>
@@ -40,14 +40,18 @@
             <option value="sierra">Sierra</option>
             <option value="stucki">Stucki</option>
         </select>
+        <select id="aspectRatioSelection">
+            <option value="1:1">1:1</option>
+            <option value="4:3">4:3</option>
+            <option value="16:9">16:9</option>
+        </select>
     </div>
 </div>
-<br><br><br><br><br>
-<br><br><br><br><br>
 <div class="footer-bar">
-    <p>&copy; 2024 underwood.network ::: DotCam v 0.0.7 ::: <a href="https://github.com/thunderpoot" target="_blank">GitHub</a>
+    <p>&copy; 2024 underwood.network ::: DotCam v <span id="commitHash">...</span> (<span id="commitDate">...</span>) ::: <a href="https://github.com/thunderpoot/dotcam" target="_blank">GitHub</a>
     </p>
 </div>
 <script src="scripts.js"></script>
+<div class="bottom-space"></div>
 </body>
 </html>
