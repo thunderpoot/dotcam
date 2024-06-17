@@ -1,6 +1,5 @@
-// Constants
-const width = 384;
-const height = 216;
+let width = 384;
+let height = 384;
 
 // Matrices (In the future, storing these in a texture might be better)
 const bayerMatrix2x2 = [[.0, .5], [.75, .25]];
@@ -21,6 +20,7 @@ const saveButton = document.getElementById('saveButton');
 const patternSlider = document.getElementById('patternSlider');
 const invertButton = document.getElementById('invertButton');
 const ditherSelection = document.getElementById('ditherSelection');
+const aspectRatioSelection = document.getElementById('aspectRatioSelection');
 
 // Settings
 let primaryColorRgb = hexToRgb(primaryColorPicker.value);
@@ -54,6 +54,22 @@ invertButton.addEventListener('click', () => invertColours = !invertColours);
 flipButton.addEventListener('click', () => flipImage = !flipImage);
 video.addEventListener('play', processFrame);
 saveButton.addEventListener('click', saveCanvasAsSVG);
+
+flipButton.addEventListener('click', () => flipImage = !flipImage);
+aspectRatioSelection.addEventListener('change', () => {
+    const aspectRatio = aspectRatioSelection.value;
+    switch (aspectRatio) {
+        case '1:1':
+            videoContainer.style.aspectRatio = '1 / 1';
+            break;
+        case '4:3':
+            videoContainer.style.aspectRatio = '4 / 3';
+            break;
+        case '16:9':
+            videoContainer.style.aspectRatio = '16 / 9';
+            break;
+    }
+});
 
 // Get webcam feed
 navigator.mediaDevices.getUserMedia({video: true})
