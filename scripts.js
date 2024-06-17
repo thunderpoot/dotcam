@@ -135,6 +135,12 @@ video.addEventListener('play', () => {
                         // Invalid coordinates
                         return 127;
                     }
+                case 'stucki':
+                    return applyStuckiDithering(x, y, data, width, height);
+                case 'sierra':
+                    return applySierraDithering(x, y, data, width, height);
+                case 'floydSteinberg':
+                    return applyFloydSteinbergDithering(x, y, data, width, height);
             }
         }
 
@@ -185,6 +191,66 @@ video.addEventListener('play', () => {
 
     processFrame();
 });
+
+function applyStuckiDithering(x, y, data, width, height) {
+    const idx = (y * width + x) * 4;
+    const oldPixel = data[idx];
+    const newPixel = oldPixel < 128 ? 0 : 255;
+    const error = oldPixel - newPixel;
+
+    if (x + 1 < width) data[idx + 4] += (error * 8) / 42;
+    if (x + 2 < width) data[idx + 8] += (error * 4) / 42;
+    if (y + 1 < height) {
+        data[idx + width * 4 - 8] += (error * 2) / 42;
+        data[idx + width * 4 - 4] += (error * 4) / 42;
+        data[idx + width * 4] += (error * 8) / 42;
+        data[idx + width * 4 + 4] += (error * 4) / 42;
+        data[idx + width * 4 + 8] += (error * 2) / 42;
+    }
+    if (y + 2 < height) {
+        data[idx + width * 8 - 4] += (error * 1) / 42;
+        data[idx + width * 8] += (error * 2) / 42;
+        data[idx + width * 8 + 4] += (error * 1) / 42;
+    }
+    return newPixel;
+}
+
+function applySierraDithering(x, y, data, width, height) {
+    const idx = (y * width + x) * 4;
+    const oldPixel = data[idx];
+    const newPixel = oldPixel < 128 ? 0 : 255;
+    const error = oldPixel - newPixel;
+
+    if (x + 1 < width) data[idx + 4] += (error * 5) / 32;
+    if (x + 2 < width) data[idx + 8] += (error * 3) / 32;
+    if (y + 1 < height) {
+        data[idx + width * 4 - 8] += (error * 2) / 32;
+        data[idx + width * 4 - 4] += (error * 4) / 32;
+        data[idx + width * 4] += (error * 5) / 32;
+        data[idx + width * 4 + 4] += (error * 4) / 32;
+        data[idx + width * 4 + 8] += (error * 2) / 32;
+    }
+    if (y + 2 < height) {
+        data[idx + width * 8 - 4] += (error * 2) / 32;
+        data[idx + width * 8] += (error * 3) / 32;
+        data[idx + width * 8 + 4] += (error * 2) / 32;
+    }
+    return newPixel;
+}
+
+function applyFloydSteinbergDithering(x, y, data, width, height) {
+    const idx = (y * width + x) * 4;
+    const oldPixel = data[idx];
+    const newPixel = oldPixel < 128 ? 0 : 255;
+    const error = oldPixel - newPixel;
+
+    if (x + 1 < width) data[idx + 4] += (error * 7) / 16;
+    if (x - 1 >= 0 && y + 1 < height) data[idx + width * 4 - 4] += (error * 3) / 16;
+    if (y + 1 < height) data[idx + width * 4] += (error * 5) / 16;
+    if (x + 1 < width && y + 1 < height) data[idx + width * 4 + 4] += (error * 1) / 16;
+
+    return newPixel;
+}
 
 function hexToRgb(hex) {
     const bigint = parseInt(hex.slice(1), 16);
