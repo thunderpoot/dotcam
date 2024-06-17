@@ -51,7 +51,6 @@ secondaryColorPicker.addEventListener('input', () => {
 
 patternSlider.addEventListener('input', () => patternInterval = parseInt(patternSlider.value));
 invertButton.addEventListener('click', () => invertColours = !invertColours);
-flipButton.addEventListener('click', () => flipImage = !flipImage);
 video.addEventListener('play', processFrame);
 saveButton.addEventListener('click', saveCanvasAsSVG);
 
@@ -305,7 +304,7 @@ async function fetchLatestCommit() {
     const commitHash = data.sha.substring(0, 7); // Shorten the commit hash
     const commitDate = new Date(data.commit.committer.date).toLocaleString();
 
-    document.getElementById('commitHash').innerText = commitHash;
+    document.getElementById('commitHash').innerHTML = `<a href="https://github.com/thunderpoot/dotcam/commit/${data.sha}" target="_blank">${commitHash}</a>`;
     document.getElementById('commitDate').innerText = commitDate;
 }
 
