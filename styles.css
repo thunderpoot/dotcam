@@ -1,8 +1,8 @@
 @font-face {
     font-family: 'Wumpus Mono Pro Web';
     src: url('./fonts/WumpusMonoProVF.woff2') format('woff2'),
-         url('./fonts/WumpusMonoProVF.woff') format('woff'),
-         url('./fonts/WumpusMonoProVF.ttf') format('ttf');
+    url('./fonts/WumpusMonoProVF.woff') format('woff'),
+    url('./fonts/WumpusMonoProVF.ttf') format('ttf');
 }
 
 :root {
@@ -31,14 +31,10 @@ body {
 }
 
 a {
-    color: var( --primary-colour );
+    color: var(--primary-color);
 }
 
-#video, #canvas {
-    display: none;
-}
-
-#outputCanvas {
+#canvas {
     width: 100%;
     height: 100%;
     image-rendering: pixelated;
@@ -81,12 +77,6 @@ select {
     -moz-appearance: none;
     appearance: none;
     cursor: pointer;
-}
-
-select:hover {
-    background-color: var(--secondary-color);
-    color: var(--primary-color);
-    box-shadow: 0 6px 8px rgba(0, 0, 0, 0.15);
 }
 
 select:focus {
@@ -177,6 +167,7 @@ label {
 }
 
 #video {
+    display: none;
     width: 100%;
     height: 100%;
     object-fit: cover;
