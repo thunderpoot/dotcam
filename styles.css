@@ -19,8 +19,8 @@ html, body {
 body {
     display: flex;
     flex-direction: column;
-    justify-content: center;
     align-items: center;
+    justify-content: space-between;
     height: 100vh;
     background-color: var(--secondary-color);
     color: var(--primary-color);
@@ -28,9 +28,6 @@ body {
     font-size: 13px;
     font-weight: 300;
     font-feature-settings: "ss03" 1;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
 }
 
 a {
@@ -66,6 +63,7 @@ button, input[type="color"], select {
 #secondaryColorPicker {
     background-color: var(--secondary-color);
 }
+
 #secondaryColorPicker:hover {
     background-color: var(--primary-color);
 }
@@ -102,6 +100,10 @@ select:focus {
     box-shadow: 0 0 0 3px rgba(0, 255, 0, 0.3);
 }
 
+#resolutionSlider {
+    width: 20%;
+}
+
 input[type="range"] {
     -webkit-appearance: none;
     width: 100%;
@@ -133,6 +135,7 @@ input[type="range"]::-moz-range-thumb {
 }
 
 label {
+    margin-top: 20px;
     color: var(--primary-color);
 }
 
@@ -186,9 +189,7 @@ label {
     border-color: var(--primary-color);
     border-width: 1px;
     width: 80%;
-    padding: 25px;
-    padding-top: 10px;
-    padding-bottom: 10px;
+    padding: 10px 25px;
 }
 
 .bottom-space {
