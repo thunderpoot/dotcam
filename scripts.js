@@ -1,6 +1,3 @@
-let width = 384;
-let height = 384;
-
 // Matrices (In the future, storing these in a texture might be better)
 const bayerMatrix2x2 = [[.0, .5], [.75, .25]];
 const bayerMatrix4x4 = [[.0, .5, .125, .625], [.75, .25, .875, .375], [.1875, .6875, .0625, .5625], [.9375, .4375, .8125, .3125]];
@@ -21,15 +18,19 @@ const patternSlider = document.getElementById('patternSlider');
 const invertButton = document.getElementById('invertButton');
 const ditherSelection = document.getElementById('ditherSelection');
 const aspectRatioSelection = document.getElementById('aspectRatioSelection');
+const videoContainer = document.getElementById('videoContainer');
+const resolutionSlider = document.getElementById('resolutionSlider');
 
 // Settings
 let primaryColorRgb = hexToRgb(primaryColorPicker.value);
 let secondaryColorRgb = hexToRgb(secondaryColorPicker.value);
 let patternInterval = parseInt(patternSlider.value);
+let resolution = parseInt(resolutionSlider.value);
+let aspectRatio = aspectRatioSelection.value;
 let invertColours = false;
 let flipImage = true;
-canvas.width = width;
-canvas.height = height;
+let width = canvas.width = 16 * resolution;
+let height = canvas.height = 16 * resolution;
 
 // Event listeners
 primaryColorPicker.addEventListener('input', () => {
@@ -50,25 +51,14 @@ secondaryColorPicker.addEventListener('input', () => {
 });
 
 patternSlider.addEventListener('input', () => patternInterval = parseInt(patternSlider.value));
+
+resolutionSlider.addEventListener('input', updateResolutionAndAspectRatio);
+aspectRatioSelection.addEventListener('change', updateResolutionAndAspectRatio);
 invertButton.addEventListener('click', () => invertColours = !invertColours);
+flipButton.addEventListener('click', () => flipImage = !flipImage);
 video.addEventListener('play', processFrame);
 saveButton.addEventListener('click', saveCanvasAsSVG);
-
-flipButton.addEventListener('click', () => flipImage = !flipImage);
-aspectRatioSelection.addEventListener('change', () => {
-    const aspectRatio = aspectRatioSelection.value;
-    switch (aspectRatio) {
-        case '1:1':
-            videoContainer.style.aspectRatio = '1 / 1';
-            break;
-        case '4:3':
-            videoContainer.style.aspectRatio = '4 / 3';
-            break;
-        case '16:9':
-            videoContainer.style.aspectRatio = '16 / 9';
-            break;
-    }
-});
+document.addEventListener('DOMContentLoaded', fetchLatestCommit);
 
 // Get webcam feed
 navigator.mediaDevices.getUserMedia({video: true})
@@ -76,9 +66,34 @@ navigator.mediaDevices.getUserMedia({video: true})
         video.srcObject = stream;
         video.play();
     })
-    .catch(err => {
-        console.error("Error accessing the webcam: " + err);
-    });
+    .catch(err => console.error("Error accessing the webcam:", err));
+
+// Update canvas size, so it always matches the aspect ratio and resolution
+function updateResolutionAndAspectRatio() {
+    resolution = parseInt(resolutionSlider.value);
+    aspectRatio = aspectRatioSelection.value;
+    switch (aspectRatio) {
+        case '1:1':
+            videoContainer.style.aspectRatio = '1 / 1';
+            width = height = 16 * resolution;
+            break;
+        case '4:3':
+            videoContainer.style.aspectRatio = '4 / 3';
+            width = 16 * resolution;
+            height = 12 * resolution;
+            break;
+        case '16:9':
+            videoContainer.style.aspectRatio = '16 / 9';
+            width = 16 * resolution;
+            height = 9 * resolution;
+            break;
+    }
+    canvas.width = width;
+    canvas.height = height;
+
+    // Above some resolution, we want to smooth the image to avoid aliasing, especially when using bayer matrices
+    canvas.style.imageRendering = canvas.width * 1.5 > canvas.clientWidth || canvas.height * 1.5 > canvas.clientHeight ? 'smooth' : 'pixelated';
+}
 
 // Process each frame of the webcam feed
 function processFrame() {
@@ -308,4 +323,3 @@ async function fetchLatestCommit() {
     document.getElementById('commitDate').innerText = commitDate;
 }
 
-document.addEventListener('DOMContentLoaded', fetchLatestCommit);
