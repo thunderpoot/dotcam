@@ -17,7 +17,10 @@
     </div>
 </div>
 <div class="solid-border-box">
-    <input type="range" id="patternSlider" min="1" max="5" value="1">
+    <div class="sliders">
+        <input type="range" id="patternSlider" min="1" max="5" value="1">
+        <input type="range" id="resolutionSlider" min="1" max="50" value="24">
+    </div>
     <div id="the-buttons">
         <button id="saveButton">Save as SVG</button>
         <button id="invertButton">Invert</button>
@@ -45,8 +48,6 @@
             <option value="4:3">4:3</option>
             <option value="16:9">16:9</option>
         </select>
-        <label for="resolutionSlider">Resolution</label>
-        <input type="range" id="resolutionSlider" min="1" max="120" value="24">
     </div>
 </div>
 <div class="footer-bar">
