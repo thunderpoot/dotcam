@@ -311,15 +311,13 @@ function saveCanvasAsSVG() {
 async function fetchLatestCommit() {
     const response = await fetch('https://api.github.com/repos/thunderpoot/dotcam/commits/main');
     if (!response.ok) {
-        console.error('Failed to fetch commit information');
+        console.error('Failed to fetch commit information (probably rate limited)');
         return;
     }
 
     const data = await response.json();
     const commitHash = data.sha.substring(0, 7); // Shorten the commit hash
-    const commitDate = new Date(data.commit.committer.date).toLocaleString();
 
     document.getElementById('commitHash').innerHTML = `<a href="https://github.com/thunderpoot/dotcam/commit/${data.sha}" target="_blank">${commitHash}</a>`;
-    document.getElementById('commitDate').innerText = commitDate;
 }
 
